@@ -120,7 +120,7 @@ function filterSearch(list)
    }
    else
    {
-      // Switch back to default page display
+      // Switch back to default page display if search bar is empty
       showPage(data, 1);
       addPagination(data);
    }
