@@ -1,7 +1,7 @@
-/*
-Treehouse Techdegree:
-FSJS Project 2 - Data Pagination and Filtering
-*/
+/******************************************
+Treehouse FSJS Techdegree:
+Project 2 - Data Pagination and Filtering
+******************************************/
 
 // Number of items to display on the currently selected page
 const itemsPerPage = 9;
@@ -15,9 +15,9 @@ header.innerHTML += `<label for="search" class="student-search">
 const searchInput = document.querySelector('#search');
 const searchButton = document.querySelector('button');
 
-/*
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
+/***
+ * This function will create and insert/append the elements needed to display a "page" of nine students
+***/
 function showPage(list, page)
 {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
@@ -48,9 +48,9 @@ function showPage(list, page)
    }
 }
 
-/*
-This function will create and insert/append the elements needed for the page buttons
-*/
+/***
+ * This function will create and insert/append the elements needed for the page buttons
+***/
 function addPagination(list)
 {
    const pageTotal = Math.ceil(list.length / itemsPerPage);
@@ -80,9 +80,9 @@ function addPagination(list)
    });
 }
 
-/*
-This function will filter search results based on user input
-*/
+/***
+ * This function will filter search results based on user input
+***/
 function filterSearch(list)
 {
    const filter = searchInput.value.toLowerCase(); // Get user input
