@@ -3,13 +3,7 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pageTotal-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
+// Number of items to display on the currently selected page
 const itemsPerPage = 9;
 
 /*
@@ -43,8 +37,6 @@ function showPage(list, page)
          ul.insertAdjacentHTML('beforeend', itemInfo);
       }
    }
-
-   
 }
 
 /*
@@ -53,6 +45,7 @@ This function will create and insert/append the elements needed for the pageTota
 function addPagination(list)
 {
    const pageTotal = Math.ceil(list.length / itemsPerPage);
+
    const ul = document.querySelector('.link-list');
    ul.innerHTML = '';
 
@@ -82,7 +75,5 @@ function addPagination(list)
    });
 }
 
-
-// Call functions
-showPage(data, 1);
-addPagination(data);
+showPage(data, 1); // Initial page display
+addPagination(data); // Add pagination to page
