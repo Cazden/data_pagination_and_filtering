@@ -16,7 +16,7 @@ const searchInput = document.querySelector('#search');
 const searchButton = document.querySelector('button');
 
 /***
- * This function will create and insert/append the elements needed to display a "page" of nine students
+ * This function will create and insert/append the elements needed to display a page of up to nine students
 ***/
 function showPage(list, page)
 {
@@ -74,7 +74,7 @@ function addPagination(list)
       {
          document.querySelector('.active').className = '';
          e.target.className = 'active';
-         showPage(data, e.target.textContent);
+         showPage(list, e.target.textContent);
       }
       // Else do nothing
    });
@@ -86,43 +86,41 @@ function addPagination(list)
 function filterSearch(list)
 {
    const filter = searchInput.value.toLowerCase(); // Get user input
-   const filteredList = []; // list to store filtered results
-
-   if (searchInput.value.length !== 0)
+   const filteredList = []; // List to store filtered results
+   
+   if (filter.length !== 0)
    {
       // Loop through list to compare filter to list data, then add to new list if data matches filter
       for (let i = 0; i < list.length; i++)
       {
          const name = `${list[i].name.first.toLowerCase()} ${list[i].name.last.toLowerCase()}`;
-
+         
          if (name.includes(filter))
          {
             filteredList.push(list[i]);
          }
+      }
+      // Display new filtered results on the page along with correct pagination
+      showPage(filteredList, 1);
+      addPagination(filteredList);
 
-         // Display new filtered results on the page along with correct pagination
-         showPage(filteredList, 1);
-         addPagination(filteredList);
-
-         // Notify the user if there are no search results
-         const userAlert = document.createElement('span');
-         document.querySelector('.student-list').appendChild(userAlert);
-         
-         if (filteredList.length === 0)
-         {
-            userAlert.textContent = `No results found for "${searchInput.value}"`; 
-         }
-         else
-         {
-            userAlert.textContent = '';
-         }
+      // Notify the user if there are no search results
+      const userAlert = document.createElement('span');
+      document.querySelector('.student-list').appendChild(userAlert);
+      if (filteredList.length === 0)
+      {
+         userAlert.textContent = `No results found for "${searchInput.value}"`; 
+      }
+      else
+      {
+         userAlert.textContent = '';
       }
    }
    else
    {
       // Switch back to default page display if search bar is empty
-      showPage(data, 1);
-      addPagination(data);
+      showPage(list, 1);
+      addPagination(list);
    }
 }
 
