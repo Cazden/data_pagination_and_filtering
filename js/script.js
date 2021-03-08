@@ -6,6 +6,15 @@ FSJS Project 2 - Data Pagination and Filtering
 // Number of items to display on the currently selected page
 const itemsPerPage = 9;
 
+const header = document.querySelector('.header');
+header.innerHTML += `<label for="search" class="student-search">
+                        <span>Search by name</span>
+                        <input id="search" placeholder="Search by name...">
+                        <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+                     </label>`;
+const searchInput = document.querySelector('#search');
+const searchButton = document.querySelector('button');
+
 /*
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
@@ -40,7 +49,7 @@ function showPage(list, page)
 }
 
 /*
-This function will create and insert/append the elements needed for the pageTotal buttons
+This function will create and insert/append the elements needed for the page buttons
 */
 function addPagination(list)
 {
@@ -55,25 +64,78 @@ function addPagination(list)
       let button = `<li>
                        <button type="button">${i + 1}</button>
                     </li>`;
-      ul.insertAdjacentHTML('beforeend', button)
+      ul.insertAdjacentHTML('beforeend', button);
+      ul.querySelector('button').className = 'active';
    }
-
-   // Assign the child element of the Li to a new variable to keep track of current page
-   let currentPage = ul.firstElementChild.firstElementChild;
-   currentPage.className = 'active';
 
    // Event that will display a new page corresponding to the page index
    ul.addEventListener('click', (e) => {
       if (e.target.type === 'button')
       {
-         currentPage.classList.remove('active');
-         currentPage = e.target;
-         currentPage.className = 'active';
-         showPage(data, currentPage.textContent);
+         document.querySelector('.active').className = '';
+         e.target.className = 'active';
+         showPage(data, e.target.textContent);
       }
       // Else do nothing
    });
 }
+
+/*
+This function will filter search results based on user input
+*/
+function filterSearch(list)
+{
+   const filter = searchInput.value.toLowerCase(); // Get user input
+   const filteredList = []; // list to store filtered results
+
+   if (searchInput.value.length !== 0)
+   {
+      // Loop through list to compare filter to list data, then add to new list if data matches filter
+      for (let i = 0; i < list.length; i++)
+      {
+         const name = `${list[i].name.first.toLowerCase()} ${list[i].name.last.toLowerCase()}`;
+
+         if (name.includes(filter))
+         {
+            filteredList.push(list[i]);
+         }
+
+         // Display new filtered results on the page along with correct pagination
+         showPage(filteredList, 1);
+         addPagination(filteredList);
+
+         // Notify the user if there are no search results
+         const userAlert = document.createElement('span');
+         document.querySelector('.student-list').appendChild(userAlert);
+         
+         if (filteredList.length === 0)
+         {
+            userAlert.textContent = `No results found for "${searchInput.value}"`; 
+         }
+         else
+         {
+            userAlert.textContent = '';
+         }
+      }
+   }
+   else
+   {
+      // Switch back to default page display
+      showPage(data, 1);
+      addPagination(data);
+   }
+}
+
+// Listen for search button to filter list
+searchButton.addEventListener('click', (e) => {
+   e.preventDefault();
+   filterSearch(data);
+});
+
+// Listen for search input to filter list
+searchInput.addEventListener('keyup', () => {
+   filterSearch(data);
+});
 
 showPage(data, 1); // Initial page display
 addPagination(data); // Add pagination to page
