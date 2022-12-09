@@ -1,22 +1,8 @@
-/*
-Treehouse Techdegree:
-FSJS Project 2 - Data Pagination and Filtering
-*/
-
-
+// Number of students displayed on a single page
+const studentsPerPage = 9;
 
 /*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
-const studentsPerPage = 9; // Number of students displayed on a single page
-
-
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
+Create and insert/append the elements needed to display a "page" of nine students
 */
 function showPage(list, page) {
    const startIndex = (page * studentsPerPage) -studentsPerPage;
@@ -24,6 +10,7 @@ function showPage(list, page) {
    const studentList = document.querySelector('.student-list');
    studentList.innerHTML = '';
 
+   // Loop through student data and append each student object to HTML
    for(let i = 0; i < list.length; i++) {
       if(i >= startIndex && i < endIndex) {
          let student = `<li class="student-item cf">
@@ -43,22 +30,23 @@ function showPage(list, page) {
 
 
 /*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
+Create and insert/append the elements needed for the pagination buttons
 */
 function addPagination(list) {
-   const numOfButtons = Math.ceil(list.length / studentsPerPage);
+   const numOfButtons = Math.ceil(list.length / studentsPerPage); // Calculate how many pagination buttons we need
    const linkList = document.querySelector('.link-list');
    linkList.innerHTML = '';
 
+   // Create and insert/append pagination buttons
    for(let i = 0; i < numOfButtons; i++) {
       let paginationButton = `<li>
                                  <button type="button">${i + 1}</button>
                               </li>`;                                    
       linkList.insertAdjacentHTML('beforeend', paginationButton);
-      linkList.querySelector('button').className = 'active';
+      linkList.querySelector('button').className = 'active'; // Highlight current page button
    }
 
+   // Pagination button event handler
    linkList.addEventListener('click', e => {
       if(e.target.tagName === 'BUTTON') {
          document.querySelector('.active').className = '';
